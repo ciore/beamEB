@@ -20,7 +20,7 @@ clear
 
 syms x F xF
 syms E I L positive
-casename='simple_pt';
+casename='cantilever_dist';
 
 switch casename
 

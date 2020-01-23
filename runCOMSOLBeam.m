@@ -64,33 +64,48 @@ else
   model.component('comp1').geom('geom1').feature('ls1').set('specify1', 'coord');
   model.component('comp1').geom('geom1').feature('ls1').set('specify2', 'coord');
   model.component('comp1').geom('geom1').feature('ls1').set('coord2', {'L' '0'});
-  model.component('comp1').geom('geom1').create('pt1', 'Point');
-  model.component('comp1').geom('geom1').feature('pt1').set('p', {'xF' '0'});
   model.component('comp1').geom('geom1').run;
 
   model.component('comp1').physics.create('beam', 'HermitianBeam', 'geom1');
   model.component('comp1').physics('beam').field('displacement').field('u');
   model.component('comp1').physics('beam').field('displacement').component({'u' 'v' 'w'});
-  model.component('comp1').physics('beam').create('pdr2', 'DispRot0', 0);
-  model.component('comp1').physics('beam').feature('pdr2').selection.set([1]);
-  model.component('comp1').physics('beam').create('pdr1', 'DispRot0', 0);
-  model.component('comp1').physics('beam').feature('pdr1').selection.set([3]);
-  model.component('comp1').physics('beam').create('pl1', 'PointLoad', 0);
-  model.component('comp1').physics('beam').feature('pl1').selection.set([2]);
-  model.component('comp1').physics('beam').create('el1', 'EdgeLoad', 1);
-  model.component('comp1').physics('beam').feature('el1').selection.set([1 2]);
+  switch inputs.casename
+    case 'simple_pt'
+      model.component('comp1').geom('geom1').create('pt1', 'Point');
+      model.component('comp1').geom('geom1').feature('pt1').set('p', {'xF' '0'});
+      model.component('comp1').geom('geom1').run;
+      model.component('comp1').physics('beam').create('pdr1', 'DispRot0', 0);
+      model.component('comp1').physics('beam').feature('pdr1').selection.set([1]);
+      model.component('comp1').physics('beam').feature('pdr1').set('Direction', [1; 1; 0]);
+      model.component('comp1').physics('beam').create('pdr2', 'DispRot0', 0);
+      model.component('comp1').physics('beam').feature('pdr2').selection.set([3]);
+      model.component('comp1').physics('beam').feature('pdr2').set('Direction', [0; 1; 0]);
+      model.component('comp1').physics('beam').create('pl1', 'PointLoad', 0);
+      model.component('comp1').physics('beam').feature('pl1').selection.set([2]);
+      model.component('comp1').physics('beam').feature('pl1').set('Fp', {'0'; 'F'; '0'});
+    case 'cantilever_ptend'
+      model.component('comp1').physics('beam').create('fix1', 'Fixed', 0);
+      model.component('comp1').physics('beam').feature('fix1').selection.set([1]);
+      model.component('comp1').physics('beam').create('pl1', 'PointLoad', 0);
+      model.component('comp1').physics('beam').feature('pl1').selection.set([2]);
+      model.component('comp1').physics('beam').feature('pl1').set('Fp', {'0'; 'F'; '0'});
+    case 'cantilever_dist'
+      model.component('comp1').physics('beam').create('fix1', 'Fixed', 0);
+      model.component('comp1').physics('beam').feature('fix1').selection.set([1]);
+      model.component('comp1').physics('beam').create('el1', 'EdgeLoad', 1);
+      model.component('comp1').physics('beam').feature('el1').selection.set([1]);
+      model.component('comp1').physics('beam').feature('el1').set('FeperLength', {'0'; 'F'; '0'});
+    otherwise 
+      warning('Case not defined')
+  end
   model.component('comp1').physics('beam').feature('emm1').set('E_mat', 'userdef');
   model.component('comp1').physics('beam').feature('emm1').set('E', 'Young');
   model.component('comp1').physics('beam').feature('emm1').set('nu_mat', 'userdef');
   model.component('comp1').physics('beam').feature('emm1').set('nu', 'Poisson');
   model.component('comp1').physics('beam').feature('emm1').set('rho_mat', 'userdef');
   model.component('comp1').physics('beam').feature('emm1').set('rho', 'Rho');
-  
   model.component('comp1').physics('beam').feature('csd1').set('area', 'A');
   model.component('comp1').physics('beam').feature('csd1').set('Izz', 'I');
-  model.component('comp1').physics('beam').feature('pdr2').set('Direction', [1; 1; 0]);
-  model.component('comp1').physics('beam').feature('pdr1').set('Direction', [0; 1; 0]);
-  model.component('comp1').physics('beam').feature('pl1').set('Fp', {'0'; 'F'; '0'});
 
   model.component('comp1').mesh.create('mesh1');
   model.component('comp1').mesh('mesh1').create('auto_f1', 'Edge');

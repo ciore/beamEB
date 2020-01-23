@@ -16,13 +16,12 @@
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-function beam=computeEulerBernoulli(model,casename,plotcurves)
+function beam=computeEulerBernoulli(model,plotcurves)
 
-if nargin<3
+if nargin<2
   plotcurves=0;
 end
   
-
 names=fieldnames(model);
 for i=1:numel(names)
   eval([names{i},'=model.',names{i},';'])
@@ -53,7 +52,7 @@ switch casename
   case 'cantilever_dist'
     
     Q = -F*(L - x);
-    M = F*(L^2 - 2*L*x + x.^2);
+    M = F*(L^2 - 2*L*x + x.^2)/2;
     t = F*x.*(3*L^2 - 3*L*x + x.^2)/(6*E*I);
     w = F*x.^2.*(6*L^2 - 4*L*x + x.^2)/(24*E*I);
 

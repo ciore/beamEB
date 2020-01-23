@@ -32,10 +32,10 @@ model.nu=0.285;
 model.rho=7.8e3;
 model.A=model.B*model.H;
 model.I=model.tb*(model.H-2*model.th)^3/12+model.B*(model.H^3-(model.H-2*model.th)^3)/12;
+model.casename='simple_pt';
 
 %% compute analytical solution from Euler-Bernoulli theory
-casename='simple_pt';
-beam=computeEulerBernoulli(model,casename);
+beam=computeEulerBernoulli(model);
 
 %% compute with comsol
 comsol=runCOMSOLBeam(model,0);
