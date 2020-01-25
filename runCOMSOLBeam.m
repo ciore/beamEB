@@ -69,7 +69,7 @@ else
   model.component('comp1').physics.create('beam', 'HermitianBeam', 'geom1');
   model.component('comp1').physics('beam').field('displacement').field('u');
   model.component('comp1').physics('beam').field('displacement').component({'u' 'v' 'w'});
-  switch inputs.casename
+  switch inputs.loadcase
     case 'simple_pt'
       model.component('comp1').geom('geom1').create('pt1', 'Point');
       model.component('comp1').geom('geom1').feature('pt1').set('p', {'xF' '0'});

@@ -29,7 +29,7 @@ end
 
 x=0:1e-3:L;
 
-switch casename
+switch loadcase
   
   case 'simple_pt'
     

@@ -30,15 +30,17 @@ model.th=0.01;
 model.E=2.1e11;
 model.nu=0.285;
 model.rho=7.8e3;
-model.A=model.B*model.H;
-model.I=model.tb*(model.H-2*model.th)^3/12+model.B*(model.H^3-(model.H-2*model.th)^3)/12;
-model.casename='simple_pt';
+model.xsection='ibeam';
+model.loadcase='simple_pt';
+model.A=computeXArea(model);
+model.I=computeSecondMomentArea(model);
+
 
 %% compute analytical solution from Euler-Bernoulli theory
-beam=computeEulerBernoulli(model);
+beam=computeEulerBernoulli(model,1);
 
 %% compute with comsol
-comsol=runCOMSOLBeam(model,0);
+comsol=runCOMSOLBeam(model);
 wc=mpheval(comsol,'v','edim',1);
 tc=mpheval(comsol,'dtang(v, x)','edim',1);
 Mc=mpheval(comsol,'beam.Mzl','edim',1);
@@ -57,3 +59,21 @@ xlabel('x'),ylabel('M')
 subplot(2,2,4)
 plot(beam.x,beam.Q,Qc.p(1,:),Qc.d1,'*')
 xlabel('x'),ylabel('Q')
+
+
+
+%% 
+function xarea=computeXArea(model)
+  switch model.xsection
+    case 'ibeam'
+    xarea=(model.B*model.H-((model.B-model.tb)*(model.H-2*model.th)));
+  end
+end
+
+%% 
+function I=computeSecondMomentArea(model)
+  switch model.xsection
+    case 'ibeam'
+    I=model.tb*(model.H-2*model.th)^3/12+model.B*(model.H^3-(model.H-2*model.th)^3)/12;
+  end
+end
