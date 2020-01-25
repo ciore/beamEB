@@ -20,7 +20,7 @@ clear
 
 syms x F xF
 syms E I L positive
-casename='cantilever_dist';
+casename='simple_pt';
 
 switch casename
 
@@ -62,7 +62,7 @@ switch casename
     
     t=[simplify(int(M(1)/E/I,x)-subs(int(M(1)/E/I,x),x,xF))
       simplify(int(M(2)/E/I,x)-subs(int(M(2)/E/I,x),x,xF))];
-    dt=int(t(1),0,xF)+int(t(2),xF,L);
+    dt=(int(t(1),0,xF)+int(t(2),xF,L))/L;
     t=simplify(t-dt)
     
     w=[simplify(int(t(1),x)-subs(int(t(1),x),x,0))

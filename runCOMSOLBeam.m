@@ -30,7 +30,7 @@ if update
   model = mphload('beam.mph');
   
   model.param.set('L', num2str(inputs.L,12), 'Length');
-  model.param.set('A', num2str(inputs.B,12), 'X-Section Area');
+  model.param.set('A', num2str(inputs.A,12), 'X-Section Area');
   model.param.set('I', num2str(inputs.I,12), '2nd Moment Area');
   model.param.set('F', num2str(inputs.F,12), 'Force');
   model.param.set('xF', num2str(inputs.xF,12), 'x of Force');
@@ -49,7 +49,7 @@ else
   model = ModelUtil.create('Model');
   
   model.param.set('L', num2str(inputs.L,12), 'Length');
-  model.param.set('A', num2str(inputs.B,12), 'X-Section Area');
+  model.param.set('A', num2str(inputs.A,12), 'X-Section Area');
   model.param.set('I', num2str(inputs.I,12), '2nd Moment Area');
   model.param.set('F', num2str(inputs.F,12), 'Force');
   model.param.set('xF', num2str(inputs.xF,12), 'x of Force');

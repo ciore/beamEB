@@ -21,20 +21,20 @@ clear
 
 %% define the model
 model.F=-1e4;
-model.xF=0.25;
-model.L=1;
-model.B=0.1;
-model.H=0.1;
-model.tb=0.1;
-model.th=0.01;
-model.E=2.1e11;
-model.nu=0.285;
-model.rho=7.8e3;
+model.xF=1.5;
+model.L=2;
+model.B=[0.1 0.1 0.1];
+model.H=[0.01 0.08 0.01];
+model.El=[2.1e11 2.1e11 2.1e11];
+model.nul=[0.285 0.285 0.285];
+model.rhol=[7.8e3 7.8e3 7.8e3];
 model.xsection='ibeam';
 model.loadcase='simple_pt';
 model.A=computeXArea(model);
 model.I=computeSecondMomentArea(model);
-
+model.E=computeEeq(model);
+model.nu=computeNueq(model);
+model.rho=computeRhoeq(model);
 
 %% compute analytical solution from Euler-Bernoulli theory
 beam=computeEulerBernoulli(model,1);
@@ -60,13 +60,11 @@ subplot(2,2,4)
 plot(beam.x,beam.Q,Qc.p(1,:),Qc.d1,'*')
 xlabel('x'),ylabel('Q')
 
-
-
 %% 
-function xarea=computeXArea(model)
+function A=computeXArea(model)
   switch model.xsection
     case 'ibeam'
-    xarea=(model.B*model.H-((model.B-model.tb)*(model.H-2*model.th)));
+      A=sum(model.B.*model.H);
   end
 end
 
@@ -74,6 +72,39 @@ end
 function I=computeSecondMomentArea(model)
   switch model.xsection
     case 'ibeam'
-    I=model.tb*(model.H-2*model.th)^3/12+model.B*(model.H^3-(model.H-2*model.th)^3)/12;
+      I0=model.B.*model.H.^3/12;
+      A=model.B.*model.H;
+      d=([0 cumsum(model.H(1:end-1))]+model.H/2-sum(model.H)/2);
+      I=sum(I0+A.*d.^2);
+  end
+end
+
+%% 
+function Eeq=computeEeq(model)
+  switch model.xsection
+    case 'ibeam'
+      I0=model.B.*model.H.^3/12;
+      A=model.B.*model.H;
+      d=([0 cumsum(model.H(1:end-1))]+model.H/2-sum(model.H)/2);
+      I=(I0+A.*d.^2);
+      Eeq=sum(model.El.*I)/sum(I);
+  end
+end
+
+%% 
+function nueq=computeNueq(model)
+  switch model.xsection
+    case 'ibeam'
+      A=model.B.*model.H;
+      nueq=sum(model.nul.*A)/sum(A);
+  end
+end
+
+%% 
+function rhoeq=computeRhoeq(model)
+  switch model.xsection
+    case 'ibeam'
+      A=model.B.*model.H;
+      rhoeq=sum(model.rhol.*A)/sum(A);
   end
 end

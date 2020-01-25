@@ -27,7 +27,7 @@ for i=1:numel(names)
   eval([names{i},'=model.',names{i},';'])
 end
 
-x=0:1e-3:L;
+x=0:L/1e2:L;
 
 switch loadcase
   
@@ -37,11 +37,11 @@ switch loadcase
     Q(x>xF) = F*xF/L;
     M = -(F*x*(L - xF))/L;
     M(x>xF) = -(F*xF*(L - x(x>xF)))/L;
-    t = -(F*(L - xF)*(- 2*L^2*xF + 4*L*xF^2 - 3*xF^2 + 3*x.^2))/(6*E*I*L);
-    t(x>xF) = (F*xF*(2*L^3 - 6*L^2*xF + 4*L*xF^2 + 6*L*xF - 6*L*x(x>xF) - 3*xF^2 + 3*x(x>xF).^2))/(6*E*I*L);
-    w = -(F*x*(L - xF).*(- 2*L^2*xF + 4*L*xF^2 - 3*xF^2 + x.^2))/(6*E*I*L);
-    w(x>xF) = -(F*xF*(L - x(x>xF)).*(2*L^3 - 6*L^2*xF - 2*L^2 + 4*L*xF^2 + 6*L*xF - 2*L*x(x>xF) - 3*xF^2 + x(x>xF).^2))/(6*E*I*L);
-    
+    t = -(F*(L - xF)*(3*x.^2 + xF^2 - 2*L*xF))/(6*E*I*L);
+    t(x>xF) = (F*xF*(2*L^2 - 6*L*x(x>xF) + 3*x(x>xF).^2 + xF^2))/(6*E*I*L);
+    w = -(F*x.*(L - xF).*(x.^2 + xF^2 - 2*L*xF))/(6*E*I*L);
+    w(x>xF) = -(F*xF*(L - x(x>xF)).*(x(x>xF).^2 - 2*L*x(x>xF) + xF^2))/(6*E*I*L);
+     
   case 'cantilever_ptend'
     
     Q = -F*ones(size(x));
