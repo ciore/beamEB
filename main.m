@@ -15,26 +15,23 @@
 % 
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
+% 
+% main
 
-%% main
 clear
 
 %% define the model
-model.F=-1e4;
-model.xF=1.5;
+model.loadcase='simple_pt';
+model.P=-1e4;
+model.xP=1.5;
 model.L=2;
+model.xsection='layered';
 model.B=[0.1 0.1 0.1];
 model.H=[0.01 0.08 0.01];
-model.El=[2.1e11 2.1e11 2.1e11];
-model.nul=[0.285 0.285 0.285];
-model.rhol=[7.8e3 7.8e3 7.8e3];
-model.xsection='ibeam';
-model.loadcase='simple_pt';
-model.A=computeXArea(model);
-model.I=computeSecondMomentArea(model);
-model.E=computeEeq(model);
-model.nu=computeNueq(model);
-model.rho=computeRhoeq(model);
+model.Ei=[2.1e11 2.1e11 2.1e11];
+model.nui=[0.285 0.285 0.285];
+model.rhoi=[7.8e3 7.8e3 7.8e3];
+model=updateDependentVars(model);
 
 %% compute analytical solution from Euler-Bernoulli theory
 beam=computeEulerBernoulli(model,1);
@@ -60,51 +57,24 @@ subplot(2,2,4)
 plot(beam.x,beam.Q,Qc.p(1,:),Qc.d1,'*')
 xlabel('x'),ylabel('Q')
 
-%% 
-function A=computeXArea(model)
-  switch model.xsection
-    case 'ibeam'
-      A=sum(model.B.*model.H);
-  end
-end
+
+%% FUNCTIONS
 
 %% 
-function I=computeSecondMomentArea(model)
+function model=updateDependentVars(model)
   switch model.xsection
-    case 'ibeam'
+    case 'layered'
       I0=model.B.*model.H.^3/12;
-      A=model.B.*model.H;
       d=([0 cumsum(model.H(1:end-1))]+model.H/2-sum(model.H)/2);
-      I=sum(I0+A.*d.^2);
-  end
-end
-
-%% 
-function Eeq=computeEeq(model)
-  switch model.xsection
-    case 'ibeam'
-      I0=model.B.*model.H.^3/12;
       A=model.B.*model.H;
-      d=([0 cumsum(model.H(1:end-1))]+model.H/2-sum(model.H)/2);
-      I=(I0+A.*d.^2);
-      Eeq=sum(model.El.*I)/sum(I);
-  end
-end
-
-%% 
-function nueq=computeNueq(model)
-  switch model.xsection
-    case 'ibeam'
-      A=model.B.*model.H;
-      nueq=sum(model.nul.*A)/sum(A);
-  end
-end
-
-%% 
-function rhoeq=computeRhoeq(model)
-  switch model.xsection
-    case 'ibeam'
-      A=model.B.*model.H;
-      rhoeq=sum(model.rhol.*A)/sum(A);
+      I=I0+A.*d.^2;
+      Eeq=sum(model.Ei.*I)/sum(I);
+      nueq=sum(model.nui.*A)/sum(A);
+      rhoeq=sum(model.rhoi.*A)/sum(A);
+      model.E=Eeq;
+      model.nu=nueq;
+      model.rho=rhoeq;
+      model.A=sum(A);
+      model.I=sum(I);
   end
 end

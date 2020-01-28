@@ -27,34 +27,34 @@ for i=1:numel(names)
   eval([names{i},'=model.',names{i},';'])
 end
 
-x=0:L/1e2:L;
+x=0:L/1e3:L;
 
 switch loadcase
   
   case 'simple_pt'
     
-    Q = -F*(L - xF)/L*ones(size(x));
-    Q(x>xF) = F*xF/L;
-    M = -(F*x*(L - xF))/L;
-    M(x>xF) = -(F*xF*(L - x(x>xF)))/L;
-    t = -(F*(L - xF)*(3*x.^2 + xF^2 - 2*L*xF))/(6*E*I*L);
-    t(x>xF) = (F*xF*(2*L^2 - 6*L*x(x>xF) + 3*x(x>xF).^2 + xF^2))/(6*E*I*L);
-    w = -(F*x.*(L - xF).*(x.^2 + xF^2 - 2*L*xF))/(6*E*I*L);
-    w(x>xF) = -(F*xF*(L - x(x>xF)).*(x(x>xF).^2 - 2*L*x(x>xF) + xF^2))/(6*E*I*L);
+    Q = -P*(L - xP)/L*ones(size(x));
+    Q(x>xP) = P*xP/L;
+    M = -(P*x*(L - xP))/L;
+    M(x>xP) = -(P*xP*(L - x(x>xP)))/L;
+    t = -(P*(L - xP)*(3*x.^2 + xP^2 - 2*L*xP))/(6*E*I*L);
+    t(x>xP) = (P*xP*(2*L^2 - 6*L*x(x>xP) + 3*x(x>xP).^2 + xP^2))/(6*E*I*L);
+    w = -(P*x.*(L - xP).*(x.^2 + xP^2 - 2*L*xP))/(6*E*I*L);
+    w(x>xP) = -(P*xP*(L - x(x>xP)).*(x(x>xP).^2 - 2*L*x(x>xP) + xP^2))/(6*E*I*L);
      
   case 'cantilever_ptend'
     
-    Q = -F*ones(size(x));
-    M = F*(L - x);
-    t = F*x.*(2*L-x)/(2*E*I);
-    w = F*x.^2.*(3*L - x)/(6*E*I);
+    Q = -P*ones(size(x));
+    M = P*(L - x);
+    t = P*x.*(2*L-x)/(2*E*I);
+    w = P*x.^2.*(3*L - x)/(6*E*I);
 
   case 'cantilever_dist'
     
-    Q = -F*(L - x);
-    M = F*(L^2 - 2*L*x + x.^2)/2;
-    t = F*x.*(3*L^2 - 3*L*x + x.^2)/(6*E*I);
-    w = F*x.^2.*(6*L^2 - 4*L*x + x.^2)/(24*E*I);
+    Q = -P*(L - x);
+    M = P*(L^2 - 2*L*x + x.^2)/2;
+    t = P*x.*(3*L^2 - 3*L*x + x.^2)/(6*E*I);
+    w = P*x.^2.*(6*L^2 - 4*L*x + x.^2)/(24*E*I);
 
   otherwise
     

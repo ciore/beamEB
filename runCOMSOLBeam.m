@@ -32,8 +32,8 @@ if update
   model.param.set('L', num2str(inputs.L,12), 'Length');
   model.param.set('A', num2str(inputs.A,12), 'X-Section Area');
   model.param.set('I', num2str(inputs.I,12), '2nd Moment Area');
-  model.param.set('F', num2str(inputs.F,12), 'Force');
-  model.param.set('xF', num2str(inputs.xF,12), 'x of Force');
+  model.param.set('P', num2str(inputs.P,12), 'Load');
+  model.param.set('xP', num2str(inputs.xP,12), 'x of Load');
   model.param.set('Young', num2str(inputs.E,12), 'Young''s mod');
   model.param.set('Poisson', num2str(inputs.nu,12), 'Poisson''s ratio');
   model.param.set('Rho', num2str(inputs.rho,12), 'density');
@@ -51,8 +51,8 @@ else
   model.param.set('L', num2str(inputs.L,12), 'Length');
   model.param.set('A', num2str(inputs.A,12), 'X-Section Area');
   model.param.set('I', num2str(inputs.I,12), '2nd Moment Area');
-  model.param.set('F', num2str(inputs.F,12), 'Force');
-  model.param.set('xF', num2str(inputs.xF,12), 'x of Force');
+  model.param.set('P', num2str(inputs.P,12), 'Load');
+  model.param.set('xP', num2str(inputs.xP,12), 'x of Load');
   model.param.set('Young', num2str(inputs.E,12), 'Young''s mod');
   model.param.set('Poisson', num2str(inputs.nu,12), 'Poisson''s ratio');
   model.param.set('Rho', num2str(inputs.rho,12), 'density');
@@ -72,7 +72,7 @@ else
   switch inputs.loadcase
     case 'simple_pt'
       model.component('comp1').geom('geom1').create('pt1', 'Point');
-      model.component('comp1').geom('geom1').feature('pt1').set('p', {'xF' '0'});
+      model.component('comp1').geom('geom1').feature('pt1').set('p', {'xP' '0'});
       model.component('comp1').geom('geom1').run;
       model.component('comp1').physics('beam').create('pdr1', 'DispRot0', 0);
       model.component('comp1').physics('beam').feature('pdr1').selection.set([1]);
@@ -82,19 +82,19 @@ else
       model.component('comp1').physics('beam').feature('pdr2').set('Direction', [0; 1; 0]);
       model.component('comp1').physics('beam').create('pl1', 'PointLoad', 0);
       model.component('comp1').physics('beam').feature('pl1').selection.set([2]);
-      model.component('comp1').physics('beam').feature('pl1').set('Fp', {'0'; 'F'; '0'});
+      model.component('comp1').physics('beam').feature('pl1').set('Fp', {'0'; 'P'; '0'});
     case 'cantilever_ptend'
       model.component('comp1').physics('beam').create('fix1', 'Fixed', 0);
       model.component('comp1').physics('beam').feature('fix1').selection.set([1]);
       model.component('comp1').physics('beam').create('pl1', 'PointLoad', 0);
       model.component('comp1').physics('beam').feature('pl1').selection.set([2]);
-      model.component('comp1').physics('beam').feature('pl1').set('Fp', {'0'; 'F'; '0'});
+      model.component('comp1').physics('beam').feature('pl1').set('Fp', {'0'; 'P'; '0'});
     case 'cantilever_dist'
       model.component('comp1').physics('beam').create('fix1', 'Fixed', 0);
       model.component('comp1').physics('beam').feature('fix1').selection.set([1]);
       model.component('comp1').physics('beam').create('el1', 'EdgeLoad', 1);
       model.component('comp1').physics('beam').feature('el1').selection.set([1]);
-      model.component('comp1').physics('beam').feature('el1').set('FeperLength', {'0'; 'F'; '0'});
+      model.component('comp1').physics('beam').feature('el1').set('FeperLength', {'0'; 'P'; '0'});
     otherwise 
       warning('Case not defined')
   end
