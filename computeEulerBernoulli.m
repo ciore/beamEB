@@ -41,6 +41,8 @@ switch loadcase
     t(x>xP) = (P*xP*(2*L^2 - 6*L*x(x>xP) + 3*x(x>xP).^2 + xP^2))/(6*E*I*L);
     w = -(P*x.*(L - xP).*(x.^2 + xP^2 - 2*L*xP))/(6*E*I*L);
     w(x>xP) = -(P*xP*(L - x(x>xP)).*(x(x>xP).^2 - 2*L*x(x>xP) + xP^2))/(6*E*I*L);
+    beta = (1:5)*pi/L;
+    f=beta.^2*sqrt(model.E*model.I/(model.rho*model.A))/2/pi;
      
   case 'cantilever_ptend'
     
@@ -48,6 +50,8 @@ switch loadcase
     M = P*(L - x);
     t = P*x.*(2*L-x)/(2*E*I);
     w = P*x.^2.*(3*L - x)/(6*E*I);
+    beta = [9.375520343559806e-01     2.347045566487088e+00     3.927378719118806e+00     5.497770367437734e+00     7.068584195523235e+00];
+    f=beta.^2*sqrt(model.E*model.I/(model.rho*model.A))/2/pi;
 
   case 'cantilever_dist'
     
@@ -55,6 +59,8 @@ switch loadcase
     M = P*(L^2 - 2*L*x + x.^2)/2;
     t = P*x.*(3*L^2 - 3*L*x + x.^2)/(6*E*I);
     w = P*x.^2.*(6*L^2 - 4*L*x + x.^2)/(24*E*I);
+    beta = [9.375520343559806e-01     2.347045566487088e+00     3.927378719118806e+00     5.497770367437734e+00     7.068584195523235e+00];
+    f=beta.^2*sqrt(model.E*model.I/(model.rho*model.A))/2/pi;
 
   otherwise
     
@@ -77,4 +83,8 @@ if plotcurves
   xlabel('x'),ylabel('Q')
 end
 
-beam=struct('x',x,'w',w,'t',t,'M',M,'Q',Q);
+if exist('f')
+  beam=struct('x',x,'w',w,'t',t,'M',M,'Q',Q,'f',f);
+else
+  beam=struct('x',x,'w',w,'t',t,'M',M,'Q',Q);
+end

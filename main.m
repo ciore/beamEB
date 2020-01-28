@@ -23,8 +23,8 @@ clear
 %% define the model
 model.loadcase='simple_pt';
 model.P=-1e4;
-model.xP=1.5;
-model.L=2;
+model.xP=1;
+model.L=1.5;
 model.xsection='layered';
 model.B=[0.1 0.1 0.1];
 model.H=[0.01 0.08 0.01];
