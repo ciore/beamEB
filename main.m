@@ -21,7 +21,7 @@
 clear
 
 %% define the model
-model.loadcase='simple_pt';
+model.loadcase='cantilever_dist';
 model.P=-1e4;
 model.xP=1;
 model.L=1.5;
@@ -37,7 +37,7 @@ model=updateDependentVars(model);
 beam=computeEulerBernoulli(model,1);
 
 %% compute with comsol
-comsol=runCOMSOLBeam(model);
+comsol=runCOMSOLBeam(model,0,4);
 wc=mpheval(comsol,'v','edim',1);
 tc=mpheval(comsol,'dtang(v, x)','edim',1);
 Mc=mpheval(comsol,'beam.Mzl','edim',1);

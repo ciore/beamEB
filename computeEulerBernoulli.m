@@ -50,8 +50,8 @@ switch loadcase
     M = P*(L - x);
     t = P*x.*(2*L-x)/(2*E*I);
     w = P*x.^2.*(3*L - x)/(6*E*I);
-    beta = [9.375520343559806e-01     2.347045566487088e+00     3.927378719118806e+00     5.497770367437734e+00     7.068584195523235e+00];
-    f=beta.^2*sqrt(model.E*model.I/(model.rho*model.A))/2/pi;
+    betaL = [1.875104068711961e+00     4.694091132974175e+00     7.854757438237613e+00     1.099554073487547e+01];
+    f=(betaL/L).^2*sqrt(model.E*model.I/(model.rho*model.A))/2/pi;
 
   case 'cantilever_dist'
     
@@ -59,8 +59,8 @@ switch loadcase
     M = P*(L^2 - 2*L*x + x.^2)/2;
     t = P*x.*(3*L^2 - 3*L*x + x.^2)/(6*E*I);
     w = P*x.^2.*(6*L^2 - 4*L*x + x.^2)/(24*E*I);
-    beta = [9.375520343559806e-01     2.347045566487088e+00     3.927378719118806e+00     5.497770367437734e+00     7.068584195523235e+00];
-    f=beta.^2*sqrt(model.E*model.I/(model.rho*model.A))/2/pi;
+    betaL = [1.875104068711961e+00     4.694091132974175e+00     7.854757438237613e+00     1.099554073487547e+01];
+    f=(betaL/L).^2*sqrt(model.E*model.I/(model.rho*model.A))/2/pi;
 
   otherwise
     

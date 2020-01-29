@@ -19,8 +19,8 @@
 clear
 
 %% define the model
-loadcase='simple_pt';
-L=2;
+loadcase='cantilever_ptend';
+L=2.1;
 
 
 switch loadcase

@@ -16,13 +16,17 @@
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-function out = model(inputs,update)
+function out = model(inputs,update,neigs)
 
 import com.comsol.model.*
 import com.comsol.model.util.*
 
 if nargin<2
   update=0;
+end
+
+if nargin<3
+  neigs=0;
 end
 
 if update
@@ -40,8 +44,10 @@ if update
    
   model.sol('sol1').runAll;
   
-%   model.sol('sol2').runAll;
-
+  if neigs
+    model.sol('sol2').runAll;
+  end
+  
   mphsave(model,'tmp')
   
 else
@@ -124,17 +130,19 @@ else
   model.sol('sol1').create('s1', 'Stationary');
   model.sol('sol1').feature('s1').create('fc1', 'FullyCoupled');
   model.sol('sol1').runAll;
- 
-%   model.study.create('std2');
-%   model.study('std2').create('eig', 'Eigenfrequency');
-%   model.study('std2').feature('eig').set('neigs', 1);
-%   model.sol.create('sol2');
-%   model.sol('sol2').study('std2');
-%   model.sol('sol2').attach('std2');
-%   model.sol('sol2').create('st1', 'StudyStep');
-%   model.sol('sol2').create('v1', 'Variables');
-%   model.sol('sol2').create('e1', 'Eigenvalue');
-%   model.sol('sol2').runAll;
+
+  if neigs
+    model.study.create('std2');
+    model.study('std2').create('eig', 'Eigenfrequency');
+    model.study('std2').feature('eig').set('neigs', neigs);
+    model.sol.create('sol2');
+    model.sol('sol2').study('std2');
+    model.sol('sol2').attach('std2');
+    model.sol('sol2').create('st1', 'StudyStep');
+    model.sol('sol2').create('v1', 'Variables');
+    model.sol('sol2').create('e1', 'Eigenvalue');
+    model.sol('sol2').runAll;
+  end
   
   mphsave(model,'beam')
   
