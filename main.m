@@ -21,7 +21,7 @@
 clear
 
 %% define the model
-model.loadcase='cantilever_dist';
+model.loadcase='simple_dist';
 model.P=-1e4;
 model.xP=1;
 model.L=1.5;

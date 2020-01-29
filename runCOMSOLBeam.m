@@ -89,6 +89,16 @@ else
       model.component('comp1').physics('beam').create('pl1', 'PointLoad', 0);
       model.component('comp1').physics('beam').feature('pl1').selection.set([2]);
       model.component('comp1').physics('beam').feature('pl1').set('Fp', {'0'; 'P'; '0'});
+    case 'simple_dist'
+      model.component('comp1').physics('beam').create('pdr1', 'DispRot0', 0);
+      model.component('comp1').physics('beam').feature('pdr1').selection.set([1]);
+      model.component('comp1').physics('beam').feature('pdr1').set('Direction', [1; 1; 0]);
+      model.component('comp1').physics('beam').create('pdr2', 'DispRot0', 0);
+      model.component('comp1').physics('beam').feature('pdr2').selection.set([2]);
+      model.component('comp1').physics('beam').feature('pdr2').set('Direction', [0; 1; 0]);
+      model.component('comp1').physics('beam').create('el1', 'EdgeLoad', 1);
+      model.component('comp1').physics('beam').feature('el1').selection.set([1]);
+      model.component('comp1').physics('beam').feature('el1').set('FeperLength', {'0'; 'P'; '0'});
     case 'cantilever_ptend'
       model.component('comp1').physics('beam').create('fix1', 'Fixed', 0);
       model.component('comp1').physics('beam').feature('fix1').selection.set([1]);

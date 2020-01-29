@@ -18,23 +18,23 @@
 
 clear
 
-syms x F xF
+syms x P xP
 syms E I L positive
-casename='simple_pt';
+casename='simple_dist';
 
 switch casename
 
   case 'simple_ptc'
     
-    w=[F*x.*(3*L^2-4*x.^2)/(48*E*I)
-      F*(L-x).*(-L^2+8*L*x-4*x.^2)/(48*E*I)];
-    t=[F*(L^2-4*x.^2)/(16*E*I)
-      F*(3*L^2-8*L*x+4*x.^2)/(16*E*I)];
-    M=[-F*x/2
-      -F*(L-x)/2];
+    w=[P*x.*(3*L^2-4*x.^2)/(48*E*I)
+      P*(L-x).*(-L^2+8*L*x-4*x.^2)/(48*E*I)];
+    t=[P*(L^2-4*x.^2)/(16*E*I)
+      P*(3*L^2-8*L*x+4*x.^2)/(16*E*I)];
+    M=[-P*x/2
+      -P*(L-x)/2];
         
-    Q=[-F/2
-      F/2]
+    Q=[-P/2
+      P/2]
     
     M=[simplify(int(Q(1),x)-subs(int(Q(1),x),x,0))
       simplify(int(Q(2),x)-subs(int(Q(2),x),x,L))]
@@ -47,34 +47,43 @@ switch casename
     
   case 'simple_pt'
     
-    w=[F*(L-xF)*x.*(L^2-(L-xF)^2-x.^2)/(6*L*E*I)
-     F*xF*(L-x).*(2*L*x-xF^2-x.^2)/(6*E*I*L)];
-    t=[F*(L-xF)*(L^2-(L-xF)^2-3*x.^2)/(6*L*E*I)
-      F*xF*(2*L^2-6*L*x+xF^2+3*x.^2)/(6*L*E*I)];
-    M=[-F*(L-xF)*x/L
-      -F*xF*(L-x)/L];
+    w=[P*(L-xP)*x.*(L^2-(L-xP)^2-x.^2)/(6*L*E*I)
+     P*xP*(L-x).*(2*L*x-xP^2-x.^2)/(6*E*I*L)];
+    t=[P*(L-xP)*(L^2-(L-xP)^2-3*x.^2)/(6*L*E*I)
+      P*xP*(2*L^2-6*L*x+xP^2+3*x.^2)/(6*L*E*I)];
+    M=[-P*(L-xP)*x/L
+      -P*xP*(L-x)/L];
     
-    Q=[-F*(L-xF)/L;
-      F*xF/L];
+    Q=[-P*(L-xP)/L;
+      P*xP/L];
     
     M=[simplify(int(Q(1),x)-subs(int(Q(1),x),x,0))
       simplify(int(Q(2),x)-subs(int(Q(2),x),x,L))]
     
-    t=[simplify(int(M(1)/E/I,x)-subs(int(M(1)/E/I,x),x,xF))
-      simplify(int(M(2)/E/I,x)-subs(int(M(2)/E/I,x),x,xF))];
-    dt=(int(t(1),0,xF)+int(t(2),xF,L))/L;
+    t=[simplify(int(M(1)/E/I,x)-subs(int(M(1)/E/I,x),x,xP))
+      simplify(int(M(2)/E/I,x)-subs(int(M(2)/E/I,x),x,xP))];
+    dt=(int(t(1),0,xP)+int(t(2),xP,L))/L;
     t=simplify(t-dt)
     
     w=[simplify(int(t(1),x)-subs(int(t(1),x),x,0))
       simplify(int(t(2),x)-subs(int(t(2),x),x,L))]
+
+  case 'simple_dist'
     
+    Q=-P/2*(L-2*x)
+
+    M=simplify(int(Q(1),x)-subs(int(Q(1),x),x,0))
+
+    t=simplify(int(M(1)/E/I,x)-subs(int(M(1)/E/I,x),x,L/2))
+
+    w=simplify(int(t(1),x)-subs(int(t(1),x),x,0))
     
   case 'cantilever_ptend'
     
-    w=F*x.^2.*(3*L-x)/(6*E*I);
-    t=F*x.*(2*L-x)/(2*E*I);
-    M=F*(L-x);
-    Q=-F*ones(size(x));
+    w=P*x.^2.*(3*L-x)/(6*E*I);
+    t=P*x.*(2*L-x)/(2*E*I);
+    M=P*(L-x);
+    Q=-P*ones(size(x));
     
     M=simplify(int(Q,x)-subs(int(Q,x),x,L))
     
@@ -84,10 +93,10 @@ switch casename
     
   case 'cantilever_dist'
     
-    w=F*x.^2.*(6*L^2-4*L*x+x.^2)/(24*E*I);
-    t=F*x.*(3*L^2-3*L*x+x.^2)/(6*E*I);
-    M=F*(L^2-2*L*x+x.^2);
-    Q=-F*(L-x);
+    w=P*x.^2.*(6*L^2-4*L*x+x.^2)/(24*E*I);
+    t=P*x.*(3*L^2-3*L*x+x.^2)/(6*E*I);
+    M=P*(L^2-2*L*x+x.^2);
+    Q=-P*(L-x);
     
     M=simplify(int(Q,x)-subs(int(Q,x),x,L))
     

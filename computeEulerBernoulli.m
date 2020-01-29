@@ -43,7 +43,16 @@ switch loadcase
     w(x>xP) = -(P*xP*(L - x(x>xP)).*(x(x>xP).^2 - 2*L*x(x>xP) + xP^2))/(6*E*I*L);
     beta = (1:5)*pi/L;
     f=beta.^2*sqrt(model.E*model.I/(model.rho*model.A))/2/pi;
-     
+
+  case 'simple_dist'
+    
+    Q = -(P*(L - 2*x))/2;
+    M = -(P*x.*(L - x))/2;
+    t = (P*(L^3 - 6*L*x.^2 + 4*x.^3))/(24*E*I);
+    w = (P*x.*(L^3 - 2*L*x.^2 + x.^3))/(24*E*I);
+    beta = (1:5)*pi/L;
+    f=beta.^2*sqrt(model.E*model.I/(model.rho*model.A))/2/pi;
+    
   case 'cantilever_ptend'
     
     Q = -P*ones(size(x));
