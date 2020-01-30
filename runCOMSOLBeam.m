@@ -47,9 +47,7 @@ if update
   if neigs
     model.sol('sol2').runAll;
   end
-  
-  mphsave(model,'tmp')
-  
+    
 else
 
   model = ModelUtil.create('Model');

@@ -21,16 +21,7 @@
 clear
 
 %% define the model
-model.loadcase='simple_dist';
-model.P=-1e4;
-model.xP=1;
-model.L=1.5;
-model.xsection='layered';
-model.B=[0.1 0.1 0.1];
-model.H=[0.01 0.08 0.01];
-model.Ei=[2.1e11 2.1e11 2.1e11];
-model.nui=[0.285 0.285 0.285];
-model.rhoi=[7.8e3 7.8e3 7.8e3];
+model=layered_def;
 model=updateDependentVars(model);
 
 %% compute analytical solution from Euler-Bernoulli theory
@@ -58,7 +49,23 @@ plot(beam.x,beam.Q,Qc.p(1,:),Qc.d1,'*')
 xlabel('x'),ylabel('Q')
 
 
+
+
 %% FUNCTIONS
+
+%%
+function model=layered_def
+  model.loadcase='simple_dist';
+  model.P=-1e4;
+  model.xP=1;
+  model.L=1.5;
+  model.xsection='layered';
+  model.B=[0.1 0.1 0.1];
+  model.H=[0.01 0.08 0.01];
+  model.Ei=[2.1e11 2.1e11 2.1e11];
+  model.nui=[0.285 0.285 0.285];
+  model.rhoi=[7.8e3 7.8e3 7.8e3];
+end
 
 %% 
 function model=updateDependentVars(model)
