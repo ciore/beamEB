@@ -16,23 +16,23 @@
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-function out = model(inputs,update,neigs)
+function out = model(inputs,model,neigs)
 
 import com.comsol.model.*
 import com.comsol.model.util.*
 
-if nargin<2
+if ~exist('model')
   update=0;
+else
+  update=1;
 end
 
-if nargin<3
+if ~exist('neigs')
   neigs=0;
 end
 
 if update
-  
-  model = mphload('beam.mph');
-  
+    
   model.param.set('L', num2str(inputs.L,12), 'Length');
   model.param.set('A', num2str(inputs.A,12), 'X-Section Area');
   model.param.set('I', num2str(inputs.I,12), '2nd Moment Area');
@@ -151,9 +151,7 @@ else
     model.sol('sol2').create('e1', 'Eigenvalue');
     model.sol('sol2').runAll;
   end
-  
-  mphsave(model,'beam')
-  
+    
 end
 
 out = model;
