@@ -28,7 +28,7 @@ model=updateDependentVars(model);
 beam=computeEulerBernoulli(model,1);
 
 %% compute with comsol
-comsol=runCOMSOLBeam(model,0,4);
+comsol=runCOMSOLBeam(model,[],4);
 wc=mpheval(comsol,'v','edim',1);
 tc=mpheval(comsol,'dtang(v, x)','edim',1);
 Mc=mpheval(comsol,'beam.Mzl','edim',1);

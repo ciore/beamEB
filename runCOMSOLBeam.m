@@ -21,7 +21,7 @@ function out = model(inputs,model,neigs)
 import com.comsol.model.*
 import com.comsol.model.util.*
 
-if ~exist('model')
+if ~exist('model')|isempty(model)
   update=0;
 else
   update=1;
